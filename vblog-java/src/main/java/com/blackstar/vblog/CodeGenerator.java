@@ -61,7 +61,7 @@ public class CodeGenerator {
     mpg.setDataSource(dsc);
     // 包配置
     PackageConfig pc = new PackageConfig();
-    pc.setModuleName(null);
+    pc.setModuleName("entity");
     pc.setParent("com.blackstar.vblog");
     mpg.setPackageInfo(pc);
     // 自定义配置
