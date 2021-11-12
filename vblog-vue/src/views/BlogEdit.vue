@@ -14,7 +14,7 @@
         </el-form-item>
 
         <el-form-item label="内容" prop="content">
-          <mavon-editor v-model="ruleForm.content"></mavon-editor>
+          <mavon-editor v-model="ruleForm.content" ref="md" @imgAdd="handleImageAdd"></mavon-editor>
         </el-form-item>
 
         <el-form-item>
@@ -56,6 +56,18 @@
       };
     },
     methods: {
+      handleImageAdd(pos, $file){
+        let formdata = new FormData();
+        formdata.append('image', $file);
+        this.$axios.post('/upload', formdata,{
+               headers: { 'Content-Type': 'multipart/form-data' },
+        }).then(res => {
+            console.log(res.data);
+            this.$refs.md.$img2Url(pos, res.data.data.url);
+        }).catch(err => {
+            console.log(err)
+        })
+      },
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {

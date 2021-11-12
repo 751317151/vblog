@@ -2,6 +2,7 @@ package com.blackstar.vblog.controller;
 
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.json.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -9,13 +10,22 @@ import com.blackstar.vblog.common.lang.Result;
 import com.blackstar.vblog.entity.MBlog;
 import com.blackstar.vblog.service.MBlogService;
 import com.blackstar.vblog.util.ShiroUtil;
+import lombok.Value;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.util.Date;
+import java.util.UUID;
 
 /**
  * <p>
@@ -75,5 +85,40 @@ public class MBlogController {
     return Result.succ(null);
   }
 
+  @PostMapping("/upload")
+  public Result upload(HttpServletRequest request, MultipartFile image) {
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+    String filePath = sdf.format(new Date());
+
+    File baseFolder = new File("/Images/" + filePath);
+    if (!baseFolder.exists()) {
+      baseFolder.mkdirs();
+    }
+
+    StringBuffer url = new StringBuffer();
+    url.append(request.getScheme())
+        .append("://")
+        .append(request.getServerName())
+        .append(":")
+        .append(request.getServerPort())
+        .append(request.getContextPath())
+        .append("/Images/")
+        .append(filePath);
+
+    String imgName = UUID.randomUUID().toString().replace("_", "") + "_" + image.getOriginalFilename().replaceAll(" ", "");
+    try {
+      File dest = new File(baseFolder, imgName);
+      FileCopyUtils.copy(image.getBytes(), dest);
+      url.append("/").append(imgName);
+
+      JSONObject object = new JSONObject();
+      object.put("url", url);
+
+
+      return Result.succ(object);
+    } catch (IOException e) {
+      return Result.fail("文件上传错误");
+    }
+  }
 
 }
