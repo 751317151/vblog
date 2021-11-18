@@ -37,10 +37,11 @@ public class AccountController {
   public Result login(@Validated @RequestBody LoginDto loginDto, HttpServletResponse response) {
 
     MUser user = userService.getOne(new QueryWrapper<MUser>().eq("username", loginDto.getUsername()));
-    Assert.notNull(user, "用户不存在");
+    Assert.notNull(user, "用户名或密码错误");
 
     if(!user.getPassword().equals(SecureUtil.md5(loginDto.getPassword()))){
-      return Result.fail("密码不正确");
+//      Assert.notNull(null, "密码不正确");
+      return Result.fail("用户名或密码错误");
     }
     String jwt = jwtUtils.generateToken(user.getId());
 

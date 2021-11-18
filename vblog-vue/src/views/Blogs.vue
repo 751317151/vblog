@@ -34,7 +34,7 @@
 <script>
   import Header from "@/components/Header";
   export default {
-    name: "Blogs",
+    name: "Blogs.vue",
     components: {Header},
     data() {
       return {
@@ -47,7 +47,11 @@
     methods: {
       handleCurrentChange(currentPage) {
         const _this = this
-        this.$axios.get('/blogs?currentPage=' + currentPage+'&currentSize='+this.pageSize).then((res) => {
+        this.$axios.get('/blogs?currentPage=' + currentPage+'&currentSize='+this.pageSize,{
+          headers : {
+            "Authorization": localStorage.getItem("vblogtoken")
+          },
+          }).then((res) => {
           console.log(res.data.data.records)
           _this.blogs = res.data.data.records
           _this.currentPage = res.data.data.current

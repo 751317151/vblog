@@ -38,6 +38,7 @@
       console.log(blogId)
       const _this = this
       this.$axios.get('/blog/' + blogId).then(res => {
+        console.log(res);
         const blog = res.data.data
         _this.blog.id = blog.id
         _this.blog.title = blog.title

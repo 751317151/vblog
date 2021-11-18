@@ -38,7 +38,7 @@
         const _this = this
         _this.$axios.get("/logout", {
           headers: {
-            "Authorization": localStorage.getItem("token")
+            "Authorization": localStorage.getItem("vblogtoken")
           }
         }).then(res => {
           _this.$store.commit("REMOVE_INFO")
@@ -47,7 +47,11 @@
       }
     },
     created() {
-      if(this.$store.getters.getUser.username) {
+      console.log(localStorage.getItem("vblogtoken"));
+      console.log(localStorage.getItem("userInfo"));
+      console.log(this.$store);
+      console.log(this.$store.getters.getUser);
+      if(this.$store.getters.getUser) {
         this.user.username = this.$store.getters.getUser.username
         this.user.avatar = require('@/'+this.$store.getters.getUser.avatar)
         this.hasLogin = true

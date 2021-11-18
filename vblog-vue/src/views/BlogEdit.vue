@@ -14,7 +14,7 @@
         </el-form-item>
 
         <el-form-item label="内容" prop="content">
-          <mavon-editor v-model="ruleForm.content" ref="md" @imgAdd="handleImageAdd"></mavon-editor>
+          <mavon-editor v-model="ruleForm.content" ref="md" @imgAdd="handleImageAdd" @imgDel="handleImageDel"></mavon-editor>
         </el-form-item>
 
         <el-form-item>
@@ -68,13 +68,17 @@
             console.log(err)
         })
       },
+      handleImageDel(pos, $file){
+        console.log(pos);
+        console.log($file);
+      },
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
             const _this = this
             this.$axios.post('/blog/edit', this.ruleForm, {
               headers: {
-                "Authorization": localStorage.getItem("token")
+                "Authorization": localStorage.getItem("vblogtoken")
               }
             }).then(res => {
               console.log(res)

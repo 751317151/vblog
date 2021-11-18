@@ -63,7 +63,7 @@ public class MBlogController {
   public Result edit(@Validated @RequestBody MBlog blog) {
 
 //        Assert.isTrue(false, "公开版不能任意编辑！");
-
+    System.out.println(ShiroUtil.getProfile().getId());
     MBlog temp = null;
     if(blog.getId() != null) {
       temp = blogService.getById(blog.getId());
