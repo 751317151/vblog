@@ -3,8 +3,14 @@
     <Header></Header>
     <div class="block">
       <el-timeline>
-        <el-timeline-item v-bind:timestamp="blog.created" placement="top" v-for="(blog,key) in blogs" :key="key">
-          <el-card>
+        <el-timeline-item 
+        v-bind:timestamp="blog.created" 
+        placement="top" 
+        v-for="(blog,key) in blogs" 
+        :key="key"
+        color="blue"
+        >
+          <el-card shadow="hover">
             <h4><router-link :to="{name: 'BlogDetail', params: {blogId: blog.id}}">{{blog.title}}</router-link></h4>
             <p>{{blog.description}}</p>
           </el-card>
@@ -29,6 +35,7 @@
       layout="total, sizes, prev, pager, next, jumper"
       :total="total">
     </el-pagination>
+    <el-backtop></el-backtop>
   </div>
 </template>
 <script>
@@ -57,6 +64,8 @@
           _this.currentPage = res.data.data.current
           _this.total = res.data.data.total
           _this.pageSize = res.data.data.size
+        }).catch((e) => {
+          console.log(e)
         })
       },
       handleSizeChange(currentSize) {
@@ -72,6 +81,11 @@
     },
     mounted () {
       this.handleCurrentChange(1);
+      this.$notify({
+        title: '欢迎回来',
+        message: '2333333333333333',
+        duration: 1500
+      });
     }
   }
 </script>

@@ -1,6 +1,8 @@
 <template>
-  <div id="app">
-    <router-view/>
+  <div style="background-color:skyblue">
+    <div id="app">
+      <router-view/>
+    </div>
   </div>
 </template>
 
