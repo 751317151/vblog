@@ -20,5 +20,11 @@ blackstar:
     # token有效时长，7天，单位秒
     expire: 604800
     header: token
+file:
+  common:
+    # windows系统下访问路径
+    uploadWindow: D://Images/
+    # linux系统下访问路径
+    uploadLinux: /home/user/
 
 
