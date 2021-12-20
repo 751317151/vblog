@@ -58,7 +58,7 @@
     methods: {
       handleImageAdd(pos, $file){
         let formdata = new FormData();
-        formdata.append('image', $file);
+        formdata.append('file', $file);
         this.$axios.post('/upload', formdata,{
                headers: { 'Content-Type': 'multipart/form-data' },
         }).then(res => {
